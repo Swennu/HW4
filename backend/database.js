@@ -1,4 +1,14 @@
-const pool = require("./db");
+const Pool =require('pg').Pool
+
+const pool = new Pool({
+  user:"postgres",
+  password:"",
+  database:"homework4",
+  host: "localhost",
+  port: "5433",
+});
+
+
 
 async function createTables() {
   await pool.query(`
@@ -19,3 +29,5 @@ async function createTables() {
 }
 
 createTables();
+
+module.exports = pool;

@@ -14,7 +14,8 @@
           <input v-model="password" type="password" required />
         </div>
 
-        <button type="submit">Signup</button>
+        <button type="submit" @click="handleAuth('signup')">Signup</button>
+        <button type="submit" @click="handleAuth('login')">Login</button>
 
         <!-- Validation Errors -->
         <p v-if="errorMessages.length > 0" class="error">
@@ -46,11 +47,21 @@ export default {
   },
 
   methods: {
-    handleSignup() {
-      this.$store.dispatch("signup", {
-        email: this.email,
-        password: this.password
-      });
+    handleAuth(mode) {
+      if (mode === "signup") {
+        this.$store.dispatch("signup", {
+          email: this.email,
+          password: this.password,
+          router: this.$router
+        });
+      }
+      else if (mode === "login"){
+        this.$store.dispatch("login", {
+          email: this.email,
+          password: this.password,
+          router: this.$router
+        });
+      }
     }
   }
 };

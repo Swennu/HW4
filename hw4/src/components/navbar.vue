@@ -2,16 +2,37 @@
   <div>
     <nav>
         <ul>
+          <li v-if="authenticated">
+          <router-link to="/posts" class="nav-item">Posts</router-link>
+          </li>
           <li><router-link to="/login" class="nav-item">Login</router-link></li>
-          <li><router-link to="/" class="nav-item">About</router-link></li>
+          <li><router-link to="/about" class="nav-item">About</router-link></li>
+          <li v-if="authenticated">
+          <button @click="handleLogout" class="nav-item">Logout</button>
+          </li>
         </ul>
       </nav>
     </div>
 
 </template>
 <script>
+  import { mapState, mapActions } from 'vuex';
   export default {
   name: "Navbar",
+  computed: {
+    ...mapState(['authenticated'])
+  },
+  methods: {
+    ...mapActions(['logout']),
+    handleLogout() {
+      this.logout();          
+      this.$router.push('/login'); 
+    }
+  },
+  mounted() {
+    // Check authentication status when navbar loads
+    this.$store.dispatch('checkAuth');
+  }
 };
 
 </script>
