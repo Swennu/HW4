@@ -92,3 +92,90 @@ app.post("/auth/logout", (req, res) => {
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
+
+app.get("/posts", async (req, res) => {
+  try {
+    const result = await pool.query("SELECT * FROM posts ORDER BY date DESC");
+    res.json({ posts: result.rows });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+app.post("/posts", async (req, res) => {
+  try {
+    const { body, date } = req.body;
+
+    if (!body || !date) {
+      return res.status(400).json({ error: "Missing body or date" });
+    }
+
+    // Example: save post in a "posts" table (assuming you have one)
+    const result = await pool.query(
+      "INSERT INTO posts (body, date) VALUES ($1, $2) RETURNING *",
+      [body, date]
+    );
+
+    res.status(201).json({ post: result.rows[0] });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Get a single post by ID
+app.get("/posts/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await pool.query("SELECT * FROM posts WHERE id = $1", [id]);
+
+    if (result.rows.length === 0) return res.status(404).json({ error: "Post not found" });
+
+    res.json({ post: result.rows[0] });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Update a post by ID
+app.put("/posts/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { body } = req.body;
+
+    const result = await pool.query(
+      "UPDATE posts SET body = $1 WHERE id = $2 RETURNING *",
+      [body, id]
+    );
+
+    if (result.rows.length === 0) return res.status(404).json({ error: "Post not found" });
+
+    res.json({ post: result.rows[0] });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Delete a post by ID
+app.delete("/posts/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const result = await pool.query("DELETE FROM posts WHERE id = $1 RETURNING *", [id]);
+
+    if (result.rows.length === 0) return res.status(404).json({ error: "Post not found" });
+
+    res.json({ message: "Post deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// Delete all posts
+app.delete("/posts", async (req, res) => {
+  try {
+    await pool.query("DELETE FROM posts"); // remove all posts
+    res.json({ message: "All posts deleted successfully" });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});

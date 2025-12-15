@@ -1,11 +1,11 @@
 const Pool =require('pg').Pool
 
 const pool = new Pool({
-  user:"postgres",
-  password:"",
+  user:"hw4user",
+  password:"password",
   database:"homework4",
   host: "localhost",
-  port: "5433",
+  port: "5432",
 });
 
 
@@ -23,7 +23,7 @@ async function createTables() {
     CREATE TABLE IF NOT EXISTS posts (
       id SERIAL PRIMARY KEY,
       body TEXT NOT NULL,
-      created_at TIMESTAMP DEFAULT NOW()
+      date TIMESTAMP NOT NULL
     )
   `);
 }

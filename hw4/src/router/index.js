@@ -1,6 +1,9 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import LoginView from '../views/LoginView.vue'
 import Testpost from '../views/Testpost.vue'
+import AddPostView from '../views/AddPostView.vue'
+import PostPage from '../views/PostPage.vue'
+
 
 const routes = [
   {
@@ -20,6 +23,15 @@ const routes = [
     path:"/posts",
     component: Testpost,
     meta: {requiresAuth: true}
+  },
+  {
+    path:"/addpost",
+    component: AddPostView,
+    meta: {requiresAuth: true}
+  },
+  { path: '/posts/:id', 
+    name: 'Post', 
+    component: PostPage 
   }
 ]
 
