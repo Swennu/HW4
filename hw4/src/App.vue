@@ -1,15 +1,20 @@
-<template>
-  <Navbar />
-  <router-view/>
+  <template>
+    <Navbar />
+    <router-view/>
+    <Footer />
 </template>
+
+
 <script>
   import Navbar from './components/navbar.vue';
+  import Footer from './components/footer.vue';
   export default {
     components:
-     {Navbar}
+     {Navbar,Footer}
   }
   
 </script>
+
 
 <style>
 #app {
@@ -32,4 +37,7 @@ nav a {
 nav a.router-link-exact-active {
   color: #42b983;
 }
+
+
 </style>
+
