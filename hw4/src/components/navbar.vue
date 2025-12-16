@@ -6,7 +6,7 @@
           <router-link to="/posts" class="nav-item">Posts</router-link>
           <router-link to="/addpost" class="nav-item">Add Post</router-link>
           </li>
-          <li><router-link to="/login" class="nav-item">Login</router-link></li>
+          <li><router-link to="/" class="nav-item">Login</router-link></li>
           <li><router-link to="/about" class="nav-item">About</router-link></li>
         </ul>
           <div v-if="authenticated" class = "logout">
@@ -28,7 +28,7 @@
     ...mapActions(['logout']),
     handleLogout() {
       this.logout();          
-      this.$router.push('/login'); 
+      this.$router.push('/'); 
     }
   },
   mounted() {

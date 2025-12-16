@@ -7,7 +7,7 @@ import PostPage from '../views/PostPage.vue'
 
 const routes = [
   {
-    path: '/login',
+    path: '/',
     name: 'home',
     component: LoginView
   },
